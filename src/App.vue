@@ -1,6 +1,6 @@
 <template>
 <div id="app">
-<div style="margin-top: 70px;"></div>
+<div style="margin-top: 50px;"></div>
 <el-row class="tac">
   <el-col :span="3">
     <el-menu default-active="1-1" class="el-menu-vertical-demo" @select="handSelect" theme="dark">
@@ -43,44 +43,22 @@ import AddTab from './commponents/addTab.vue'
       return {
         messagea:bus,
         menus:[{
-          title: '菜单1',
+          title: '测试菜单',
           name: '1',
-          content: '菜单1Tab 1 conads',
             childs:[{
             title: '菜单1tab1',
-            name: '1-1',
-            content: 'Tab 1 conadsfadsftent'
+            name: 'Testa'
             },{
               title: '菜单1tab2',
-              name: '1-2',
-              content: '菜单1Tab 2 conadsfadsftent'
+              name: 'Testb'
           }]
         },{
-          title: '菜单2',
+          title: '系统管理',
           name: '2',
-          content: 'Tab 1 conadsfadsftent',
             childs:[{
-            title: '菜单2tab1',
-            name: '2-1',
-            content: '菜单2Tab 1 conadsfadsftent'
-            },{
-              title: '菜单2tab2',
-              name: '2-2',
-              content: '菜单2Tab 2 conadsfadsftent'
-          }]
-        },{
-          title: '菜单3',
-          name: '3',
-          content: 'Tab 1 conadsfadsftent',
-            childs:[{
-            title: '菜单3tab1',
-            name: '3-1',
-            content: '菜单3Tab'
-            },{
-              title: '菜单3tab2',
-              name: '3-2',
-              content: '菜单3Tab 2 conadsfadsftent'
-          }]
+            title: '用户管理',
+            name: 'Testc'
+            }]
         }]
       }
     }
