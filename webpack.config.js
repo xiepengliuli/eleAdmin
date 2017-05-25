@@ -39,7 +39,15 @@ module.exports = {
             'vue': 'vue/dist/vue.js'
         }
     },
-    devtool: '#eval-source-map'
+
+    devtool: '#eval-source-map',
+     // 增加一个plugins
+   plugins: [
+      new webpack.ProvidePlugin({
+          $: "jquery",
+          jQuery: "jquery"
+      })
+   ]
 }
 
 if (process.env.NODE_ENV === 'production') {

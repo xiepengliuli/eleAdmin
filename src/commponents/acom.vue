@@ -2,7 +2,7 @@
 	<div>
 	  <Testa v-if="pitem.name=='Testa'"></Testa>
 	  <Testb v-if="pitem.name=='Testb'"></Testb>
-	   <Testc v-if="pitem.name=='Testc'"></Testc>
+	  <Testc v-if="pitem.name=='Testc'"></Testc>
 	</div>
 </template>
 <script>
