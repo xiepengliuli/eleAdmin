@@ -9,7 +9,7 @@
   import Vue from 'vue'
   import Testa from './testa.vue'
   import Testb from './testb.vue'
-   import Testc from './testc.vue'
+  import Testc from './testc.vue'
   export default{
   	props:["pitem"],
   	components:{

@@ -1,6 +1,6 @@
 <template>
 <el-tabs v-model="editableTabsValue2" type="border-card" closable @tab-remove="removeTab">
-  <el-tab-pane
+  <el-tab-pane style="min-height: 560px;overflow-y:visible ;"
     v-for="(item, index) in editableTabs2" 
     :key="item.name"
     :label="item.title"
@@ -45,8 +45,6 @@
  
     methods: {
       addTab(menu) {
-        var tempaa='<h1>adfadf中国fdfdsf</h1><h1>adfadf中国fdfdsf</h1>';
-        menu.content=tempaa;
         this.editableTabs2.push(menu);
         this.editableTabsValue2 = menu.name;
 

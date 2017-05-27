@@ -1,16 +1,12 @@
 <template>
 <div id="app">
-<Login></Login>
+  <router-view></router-view>
 </div>
 </template>
 <script>
 import Vue from 'vue'
-import Login from './commponents/login.vue'
  var bus = new Vue()
-export default{
-  components:{
-    Login
+  export default{
   }
-}
 </script>
 

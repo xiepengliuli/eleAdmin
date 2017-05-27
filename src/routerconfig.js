@@ -1,8 +1,12 @@
+import Main from './commponents/main.vue'
+import Login from './commponents/login.vue'
 import AddTab from './commponents/addTab.vue'
 import Testa from './commponents/testa.vue'
 import Testb from './commponents/testb.vue'
 export default[
+ { path: '/',component: Login },
  { path: '/addTab',component: AddTab },
- { path: '/addTab',component: Testa },
- { path: '/addTab',component: Testb }
+ { path: '/testa',component: Testa },
+ { path: '/testb',component: Testb },
+ { path: '/main',component: Main }
 ]	

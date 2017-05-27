@@ -1,44 +1,44 @@
 <template>
+
+<el-row>
+  <el-col :span="24">
   <div>
-  	<div style="margin-bottom: 10px;">
-  	<el-collapse>
-		  <el-collapse-item title="搜索" name="1"> 	 
-		  	<el-row :gutter="20">
-			  <el-col :span="4">
-			  	<el-input v-model="loginname" placeholder="登陆名"></el-input>
-			  </el-col>
-			  <el-col :span="4">
-			  	<el-input v-model="loginname" placeholder="登陆名"></el-input>
-			  </el-col>
-			  <el-col :span="5">
-			  	<el-input v-model="loginname" placeholder="登陆名"></el-input>
-			  </el-col>
-			    <el-col :span="5">
-			  	<el-input v-model="loginname" placeholder="登陆名"></el-input>
-			  </el-col>
-			</el-row><el-row :gutter="20">
-			  <el-col :span="4">
-			  	<el-input v-model="loginname" placeholder="登陆名"></el-input>
-			  </el-col>
-			  <el-col :span="4">
-			  	<el-input v-model="loginname" placeholder="登陆名"></el-input>
-			  </el-col>
-			  <el-col :span="6"  :offset="10">
-			  	<el-button type="primary" icon="search">搜索</el-button>
-			  	<el-button type="primary" icon="delete">清空</el-button>
-			  </el-col>
-			</el-row>
-			 </el-collapse-item>
-	</el-collapse>
-  	</div>
+        <el-collapse>
+        <el-collapse-item title="搜索" name="1">   
+          <el-row :gutter="20">
+          <el-col :span="4">
+            <el-input v-model="loginname" placeholder="登陆名"></el-input>
+          </el-col>
+          <el-col :span="4">
+            <el-input v-model="loginname" placeholder="登陆名"></el-input>
+          </el-col>
+          <el-col :span="5">
+            <el-input v-model="loginname" placeholder="登陆名"></el-input>
+          </el-col>
+            <el-col :span="5">
+            <el-input v-model="loginname" placeholder="登陆名"></el-input>
+          </el-col>
+        </el-row><el-row :gutter="20">
+          <el-col :span="4">
+            <el-input v-model="loginname" placeholder="登陆名"></el-input>
+          </el-col>
+          <el-col :span="4">
+            <el-input v-model="loginname" placeholder="登陆名"></el-input>
+          </el-col>
+          <el-col :span="6"  :offset="10">
+            <el-button type="primary" icon="search">搜索</el-button>
+            <el-button type="primary" icon="delete">清空</el-button>
+          </el-col>
+        </el-row>
+         </el-collapse-item>
+      </el-collapse>  
 
-  	 <div style="margin-bottom:10px;">
-	 	<el-button type="primary" icon="edit"  @click="dialogFormVisible = true">添加</el-button>
-		<el-button type="primary" icon="share">共享</el-button>
-		<el-button type="primary" icon="delete">批量删除</el-button>
-  	 </div>
-
-  	<el-table
+   <div style="margin:10px 0;">
+      <el-button type="primary" icon="edit"  @click="dialogFormVisible = true">添加</el-button>
+      <el-button type="primary" icon="share">共享</el-button>
+      <el-button type="primary" icon="delete">批量删除</el-button>
+   </div>
+    <el-table
     ref="multipleTable"
     :data="tableData3"
     border
@@ -101,43 +101,42 @@
     </el-table-column>
   </el-table>
 
+  <el-dialog title="收货地址" :visible.sync="dialogFormVisible">
+    <el-form :model="form">
+      <el-form-item label="活动名称" :label-width="formLabelWidth">
+        <el-input v-model="form.name" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="活动区域" :label-width="formLabelWidth">
+        <el-select v-model="form.region" placeholder="请选择活动区域">
+          <el-option label="区域一" value="shanghai"></el-option>
+          <el-option label="区域二" value="beijing"></el-option>
+        </el-select>
+      </el-form-item>
+    </el-form>
+    <div slot="footer" class="dialog-footer">
+      <el-button @click="dialogFormVisible = false">取 消</el-button>
+      <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+    </div>
+  </el-dialog>
 
-<el-dialog title="收货地址" :visible.sync="dialogFormVisible">
-  <el-form :model="form">
-    <el-form-item label="活动名称" :label-width="formLabelWidth">
-      <el-input v-model="form.name" auto-complete="off"></el-input>
-    </el-form-item>
-    <el-form-item label="活动区域" :label-width="formLabelWidth">
-      <el-select v-model="form.region" placeholder="请选择活动区域">
-        <el-option label="区域一" value="shanghai"></el-option>
-        <el-option label="区域二" value="beijing"></el-option>
-      </el-select>
-    </el-form-item>
-  </el-form>
-  <div slot="footer" class="dialog-footer">
-    <el-button @click="dialogFormVisible = false">取 消</el-button>
-    <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
-  </div>
-</el-dialog>
-
-
-  <div class="block" style="margin-top: 20px;">
-    <el-pagination
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-      :current-page="currentPage4"
-      :page-sizes="[10, 20, 30, 40]"
-      :page-size="100"
-      layout="total, sizes, prev, pager, next, jumper"
-      :total="2000">
-    </el-pagination>
-  </div>
-  </div>
+  <el-pagination
+    @size-change="handleSizeChange"
+    @current-change="handleCurrentChange"
+    :current-page="currentPage4"
+    :page-sizes="[10, 20, 30, 40]"
+    :page-size="100"
+    layout="total, sizes, prev, pager, next, jumper"
+    :total="2000">
+  </el-pagination>
+  </div>    
+  </el-col>
+</el-row>
+ 
 </template>
 
 <script>
   export default {
-  	methods:{  handleSizeChange(val) {
+    methods:{  handleSizeChange(val) {
         console.log(`每页 ${val} 条`);
       },
       handleCurrentChange(val) {
@@ -149,11 +148,11 @@
       }
 
   },
-	data() {
+  data() {
       return {
-      	dialogFormVisible: false,
-      	loginname:'',
-      	form: {
+        dialogFormVisible: false,
+        loginname:'',
+        form: {
           name: '',
           region: '',
           date1: '',
@@ -163,8 +162,8 @@
           resource: '',
           desc: ''
         },
-      	username:'',
-      	currentPage4: 4,
+        username:'',
+        currentPage4: 4,
         tableData3: [{
           date: '2016-05-03',
           name: '王小虎',
@@ -203,11 +202,11 @@
     }
   }
 </script>
-<style type="text/css">
-	.el-row {
-    	margin-bottom: 10px;
-  	}
-  	.el-input{
-  		line-height: 30px;
-  	}
+<style scoped>
+  .el-row {
+      margin-bottom: 10px;
+    }
+    .el-input{
+      line-height: 30px;
+    }
 </style>

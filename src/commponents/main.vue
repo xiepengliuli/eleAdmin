@@ -1,34 +1,35 @@
 <template>
 <div>
-<div style="margin-top: 50px;"></div>
-<el-row class="tac">
-  <el-col :span="3">
-    <el-menu default-active="1-1" class="el-menu-vertical-demo" @select="handSelect" theme="dark">
-      <el-submenu :index="menu.title" v-for="menu of menus">
-        <template slot="title">{{menu.title}}</template>
-          <el-menu-item :index="item.title" v-for="item of menu.childs">{{item.title}}</el-menu-item>
-      </el-submenu>
-     </el-menu>
-  </el-col>
-  <el-col :span="21">
-  <tabs :message="messagea"></tabs>
-  </el-col>
-</el-row>
+  <Top></Top>
+    <el-row class="tac" style="min-height:643px;">
+      <el-col :span="3">
+        <el-menu default-active="1-1" class="el-menu-vertical-demo" @select="handSelect" theme="dark">
+          <el-submenu :index="menu.title" v-for="menu of menus">
+            <template slot="title">{{menu.title}}</template>
+              <el-menu-item :index="item.title" v-for="item of menu.childs">{{item.title}}</el-menu-item>
+          </el-submenu>
+         </el-menu>
+      </el-col>
+      <el-col :span="21" style="">
+      <tabs :message="messagea"></tabs>
+      </el-col>
+    </el-row>    
+ <Bottom></Bottom>
 </div>
 </template>
 <script>
+import $ from 'jquery'
 
-$(function(){
-  $('body').css("background","red");
-})
 import Vue from 'vue'
 import AddTab from './addTab.vue'
+import Top from './top.vue'
+import Bottom from './bottom.vue'
  var bus = new Vue()
 
   export default {
     
     components: {
-    'tabs': AddTab
+    'tabs': AddTab,Top,Bottom
     },
     methods: {
       handSelect(key, keyPath) {
@@ -68,4 +69,7 @@ import AddTab from './addTab.vue'
     }
   }
 </script>
+<style>
+  
+</style>
 
