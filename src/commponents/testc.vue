@@ -55,30 +55,6 @@
       width="120">
       <template scope="scope">{{ scope.row.date }}</template>
     </el-table-column>
-    <el-table-column
-      prop="name"
-      label="姓名"
-      width="120">
-
-    </el-table-column>
-        <el-table-column
-      prop="name"
-      label="姓名"
-      width="120">
-    </el-table-column>
-      </el-table-column>
-        <el-table-column
-      prop="name"
-      label="姓名"
-      width="120">
-    </el-table-column>
-      </el-table-column>
-        <el-table-column
-      prop="name"
-      label="姓名"
-      width="120">
-    </el-table-column>
-      </el-table-column>
         <el-table-column
       prop="name"
       label="姓名"
@@ -103,11 +79,11 @@
 
   <el-dialog title="收货地址" :visible.sync="dialogFormVisible">
     <el-form :model="form">
-      <el-form-item label="活动名称" :label-width="formLabelWidth">
-        <el-input v-model="form.name" auto-complete="off"></el-input>
+      <el-form-item label="活动名称" label-width="formLabelWidth">
+        <el-input  auto-complete="off"></el-input>
       </el-form-item>
-      <el-form-item label="活动区域" :label-width="formLabelWidth">
-        <el-select v-model="form.region" placeholder="请选择活动区域">
+      <el-form-item label="活动区域" label-width="formLabelWidth">
+        <el-select  placeholder="请选择活动区域">
           <el-option label="区域一" value="shanghai"></el-option>
           <el-option label="区域二" value="beijing"></el-option>
         </el-select>
@@ -136,7 +112,11 @@
 
 <script>
   export default {
-    methods:{  handleSizeChange(val) {
+    mounted:function(){
+      this.getUserList();
+    },
+    methods:{  
+      handleSizeChange(val) {
         console.log(`每页 ${val} 条`);
       },
       handleCurrentChange(val) {
@@ -145,6 +125,16 @@
       
       handleSelectionChange(val) {
         this.multipleSelection = val;
+      },getUserList(){
+           this.$http.get("admin/user/dataGrid").then(
+            function(res){
+              console.log(res.data);
+            }
+          ).catch(
+            function(err){
+            })
+      },handleClick(){
+        
       }
 
   },

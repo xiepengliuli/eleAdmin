@@ -22,20 +22,45 @@
 
 <script>
 
+import {mapGetters} from 'vuex'
+
 export default {
 
   data(){
     return{
       username:"admin",
-      password:""
+      password:"admin"
     }
   },
   methods:{
-    login:function(){
+    login(){
+        var _this=this;
+        this.$http.get('admin/user/loginvue',{
+          params: {
+            loginName:_this.username,
+            password:_this.password
+          }
+        }).then(function(res){
+              if (res.data.success) {
+                _this.$store.dispatch('LOGIN_SUCCESS');
+                _this.$router.push("main");
+              }
+
+        }).catch(function(err){
+            console.log(err);
+        });
+      }
+  },
+  computed:mapGetters([
+      'isLogin'
+    ]),
+  mounted(){
+    if (this.isLogin) {
       this.$router.push("main");
-    }
+    } 
   }
 }
+
 
 </script>
 <style  scoped>
