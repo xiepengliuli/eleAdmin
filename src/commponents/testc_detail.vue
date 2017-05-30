@@ -1,12 +1,11 @@
 <template>
-  <div>
-    <el-button type="primary" icon="plus" @click="dialogVisible = true">添加</el-button>
+  <div id="testc_detail">
     <el-dialog
-      title="添加"
+      title="详情"
       :visible.sync="dialogVisible"
       size="small"
       >
-       <el-form :label-position="labelPosition" label-width="120px"  :inline="isinline" :model="form_data" ref="form_data" class="demo-form-inline demo-ruleForm" :rules="rules" >
+       <el-form :label-position="labelPosition" label-width="120px"  :inline="isinline" :model="form_data" ref="form_data" class="demo-form-inline demo-ruleForm" >
         <el-form-item label="登录名称:" prop="loginName">
           <el-input v-model="form_data.loginName" placeholder="请输入登录名称"></el-input>
         </el-form-item>
@@ -45,44 +44,45 @@
           </el-radio-group>
          </el-form-item>
          <br>
+
          <el-form-item label="备注:" prop="userDesc">
           <el-input type="textarea" :rows="5" style="width: 550px;" v-model="form_data.userDesc" placeholder="请输入备注">
           </el-input>
          </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="submitForm('form_data')">确 定</el-button>
-        <el-button type="primary"  @click="resetForm('form_data')">重置表单</el-button>
+        <el-button @click="dialogVisible = false">关闭</el-button>
+
       </span>
     </el-dialog>
   </div>
 </template>
 <script>
   export default {
-
+    props: ['dialogShow','id'],
     watch:{
-      dialogVisible:function(val){
-        if (val) {
-          //this.resetForm('form_data');//页面打开时清空表单
-        } 
+      id:function(_id){
+        this.loadEditData(_id);
+      }
+
+    },
+    computed:{
+      dialogVisible: {
+          get: function () {
+            return this.dialogShow
+          },
+          set: function (newValue) {
+            if (!newValue) {
+                this.$emit('close');
+            } 
+          
+          }
       }
     },
     data() {
       return {
-        rules:{
-            loginName: [
-              { required: true, message: '请输入登录名称', trigger: 'blur' },
-              { min: 6, max: 20, message: '长度在 6 到 20 个字符', trigger: 'blur' }
-            ],
-            password: [
-              { required: true, message: '请输入密码', trigger: 'blur' },
-              { min: 8, max: 20, message: '长度在 8 到 20 个字符', trigger: 'blur' }
-            ]
-        },
         labelPosition:"right",
         isinline:true,
-        dialogVisible:false,
         userStateList:[{
           value:"0",
           text:"正常"
@@ -99,6 +99,7 @@
             text:'女'
           }],
         form_data:{
+          id:"",
           loginName:"", 
           password:"",
           userName:"",
@@ -115,40 +116,19 @@
     };
   },
   methods: {
-      handleClose(done) {
-        this.$confirm('确认关闭？')
-          .then(_ => {
-            done();
+      loadEditData(id){
+        var _this=this;
+        this.$http.post("admin/user/getById",qs.stringify({id:id})).then(function(res){
+            if(res.data.success){
+              res.data.obj.password="";
+              //_this.form_data=res.data.obj;//因为有多余的属性(如日期类型的数据,可能报400错误,springMVC服务端接受参数会出问题)
+              copyto(_this.form_data,res.data.obj);
+              $("#testc_detail .el-form input").attr("disabled","disabled");
+              $("#testc_detail .el-form select").attr("disabled","disabled");
+              $("#testc_detail .el-form textarea").attr("disabled","disabled");
+            }
           })
-          .catch(_ => {});
-      },
-      resetForm(formName) {
-        this.$refs[formName].resetFields();
-      },
-      submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
-          var _this=this;
-          if (valid) {
-            this.$http.post("admin/user/add",
-            qs.stringify(_this.form_data)).then(
-              function(res){
-                if(res.data.success){
-                        _this.dialogVisible = false;
-                        _this.$emit('flush');
-                 }else{
-                    alert(res.data.msg);       
-                 }
-           
-              }
-            ).catch(
-              function(err){
-            })
-          } else {
-            return false;
-          }
-        });
       }
-
     }
   };
 </script>

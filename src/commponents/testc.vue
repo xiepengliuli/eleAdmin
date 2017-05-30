@@ -34,8 +34,9 @@
 
       <!--表头操作按钮-->
    <div style="float: left;margin: 15px 0px;">
-      <addPage style="float:left;"></addPage>
-      <editPage style="float:left;margin-left: 10px;"></editPage>
+      <addPage style="float:left;" v-on:flush="getUserList"></addPage>
+      <editPage style="float:left;" :dialogShow="editDialogVisible" v-on:flush="getUserList" v-on:close="editDialogVisible=false" :id="id"></editPage>
+      <detailPage style="float:left;" :dialogShow="detailDialogVisible" v-on:flush="getUserList" v-on:close="detailDialogVisible=false" :id="id"></detailPage>
    </div>
     <el-table
     ref="multipleTable"
@@ -68,10 +69,10 @@
     <el-table-column
       fixed="right"
       label="操作"
-      width="120">
+      width="120" prop="id">
       <template scope="scope">
-        <el-button @click="detail" type="text" size="small">查看</el-button>
-        <el-button type="text" size="small" @click="edit">编辑</el-button>
+        <el-button type="text" size="small" @click="detail(scope)">查看</el-button>
+        <el-button type="text" size="small" @click="edit(scope)">编辑</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -89,14 +90,12 @@
   </div>    
   </el-col>
 </el-row>
-
-
-
 </template>
 
 <script>
   import AddPage from "./testc_add.vue"
   import EditPage from "./testc_edit.vue"
+  import DetailPage from "./testc_detail.vue"
   
   var search_data={
     loginName:"",
@@ -109,7 +108,8 @@
   components: {
     // <my-component> 将只在父模板可用
     'addPage': AddPage,
-    'editPage':EditPage
+    'editPage':EditPage,
+    'detailPage':DetailPage
   },
     mounted:function(){
       this.getUserList();
@@ -138,36 +138,29 @@
           ).catch(
             function(err){
             })
-      },detail(){
-
+      },detail(scope){
+        this.id=scope.row.id;
+        this.detailDialogVisible=true;
       },clear(){
         this.serach_form=$.extend(true,{}, search_data);
         this.getUserList();
-      },edit(){
-
+      },edit(scope){
+        this.id=scope.row.id;
+        this.editDialogVisible=true;
       }
 
   },
   data() {
       return {
+        id:'',
+        editDialogVisible:false,
+        detailDialogVisible:false,
         serach_form:$.extend(true,{}, search_data),
         feny:{
           total:0,//总数
           rows: [],//数据
         },//根据总数算分页,根据data填充数据
-        multipleSelection: [],//选中的对象数组
-        dialogFormVisible: false,
-        
-        form: {
-          name: '',
-          region: '',
-          date1: '',
-          date2: '',
-          delivery: false,
-          type: [],
-          resource: '',
-          desc: ''
-        }
+        multipleSelection: []//选中的对象数组
       }
     }
   }

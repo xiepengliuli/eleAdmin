@@ -7,8 +7,7 @@
 import Vue from 'vue'
 import {mapGetters} from 'vuex'
 
- var bus = new Vue()
-  export default{
+export default{
  	computed:mapGetters([
       'isLogin'
     ]),
