@@ -24,7 +24,7 @@ import Vue from 'vue'
 import AddTab from './addTab.vue'
 import Top from './top.vue'
 import Bottom from './bottom.vue'
- var bus = new Vue()
+var bus = new Vue()
 
   export default {
     
@@ -62,7 +62,7 @@ import Bottom from './bottom.vue'
           name: '2',
             childs:[{
             title: '用户管理',
-            name: 'Testc'
+            name: 'User'
             }]
         }]
       }

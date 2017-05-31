@@ -93,9 +93,9 @@
 </template>
 
 <script>
-  import AddPage from "./testc_add.vue"
-  import EditPage from "./testc_edit.vue"
-  import DetailPage from "./testc_detail.vue"
+  import AddPage from "./user_add.vue"
+  import EditPage from "./user_edit.vue"
+  import DetailPage from "./user_detail.vue"
   
   var search_data={
     loginName:"",
