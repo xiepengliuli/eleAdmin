@@ -14,23 +14,28 @@
 var temp=[
    {id:"0",
 		pid:null,
-		name:"名称0"
+		name:"名称0",
+		ids:"1,2,3"
    },
    {id:"1",
 		pid:null,
-		name:"名称1"
+		name:"名称1",
+		ids:"1,2,3"
    },
    {id:"2",
 		pid:"1",
-		name:"名称1_1"
+		name:"名称1_1",
+		ids:"1,2,3"
    },
    {id:"3",
 		pid:"1",
-		name:"名称1_2"
+		name:"名称1_2",
+		ids:"1,2,3"
    },
    {id:"4",
 		pid:"3",
-		name:"名称1_2_1"
+		name:"名称1_2_1",
+		ids:"1,2,3"
    }
 ];
   export default {
