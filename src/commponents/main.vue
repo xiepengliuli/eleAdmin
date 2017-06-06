@@ -53,14 +53,14 @@ var bus = new Vue()
             childs:[{
             title: '菜单1tab1',
             name: 'Testa'
-            },{
-              title: '菜单1tab2',
-              name: 'Testb'
-          }]
+            }]
         },{
           title: '系统管理',
           name: '2',
             childs:[{
+              title: '模块管理',
+              name: 'Module'
+          },{
             title: '用户管理',
             name: 'User'
             }]

@@ -23,7 +23,7 @@ temp：json数组,一般是后台返回的,如tarray;
 id：json数组中元素的的id的字段名称,如userId;
 pid：json数组中元素的的表示父亲的字段名称,如userParentId;
 
-调用方式:如getTree(tarray,"如userId","如userParentId");
+调用方式:如getTree(tarray,"userId","userParentId");
 */
 function getTree(temp,id,pid){
 	var top=getTreeTop(temp,pid);

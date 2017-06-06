@@ -71,8 +71,8 @@
       label="操作"
       width="120" prop="id">
       <template scope="scope">
-        <el-button type="text" size="small" @click="detail(scope)">查看</el-button>
         <el-button type="text" size="small" @click="edit(scope)">编辑</el-button>
+        <el-button type="text" size="small" @click="detail(scope)">查看</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -93,9 +93,9 @@
 </template>
 
 <script>
-  import AddPage from "./user_add.vue"
-  import EditPage from "./user_edit.vue"
-  import DetailPage from "./user_detail.vue"
+  import AddPage from "./add.vue"
+  import EditPage from "./edit.vue"
+  import DetailPage from "./detail.vue"
   
   var search_data={
     loginName:"",
@@ -105,12 +105,12 @@
   };
 
   export default {
-  components: {
-    // <my-component> 将只在父模板可用
-    'addPage': AddPage,
-    'editPage':EditPage,
-    'detailPage':DetailPage
-  },
+    components: {
+      // <my-component> 将只在父模板可用
+      'addPage': AddPage,
+      'editPage':EditPage,
+      'detailPage':DetailPage
+    },
     mounted:function(){
       this.getUserList();
     },

@@ -1,8 +1,7 @@
 <template>
   <div>
-    <el-button type="primary" icon="plus" @click="dialogVisible = true">添加</el-button>
     <el-dialog
-      title="添加"
+      title="编辑"
       :visible.sync="dialogVisible"
       size="small"
       >
@@ -53,36 +52,44 @@
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="submitForm('form_data')">确 定</el-button>
-        <el-button type="primary"  @click="resetForm('form_data')">重置表单</el-button>
       </span>
     </el-dialog>
   </div>
 </template>
 <script>
   export default {
-
+    props: ['dialogShow','id'],
     watch:{
-      dialogVisible:function(val){
-        if (val) {
-          //this.resetForm('form_data');//页面打开时清空表单
-        } 
+      id:function(_id){
+        this.loadEditData(_id);
+      }
+    },
+    computed:{
+      dialogVisible: {
+          get: function () {
+            return this.dialogShow
+          },
+          set: function (newValue) {
+            if (!newValue) {
+                this.$emit('close');
+            } 
+          
+          }
       }
     },
     data() {
       return {
+        labelPosition:"right",
+        isinline:true,
         rules:{
             loginName: [
               { required: true, message: '请输入登录名称', trigger: 'blur' },
               { min: 6, max: 20, message: '长度在 6 到 20 个字符', trigger: 'blur' }
             ],
             password: [
-              { required: true, message: '请输入密码', trigger: 'blur' },
-              { min: 8, max: 20, message: '长度在 8 到 20 个字符', trigger: 'blur' }
+          
             ]
         },
-        labelPosition:"right",
-        isinline:true,
-        dialogVisible:false,
         userStateList:[{
           value:"0",
           text:"正常"
@@ -99,7 +106,8 @@
             text:'女'
           }],
         form_data:{
-          loginName:"aaaa", 
+          id:"",
+          loginName:"", 
           password:"",
           userName:"",
           nameLetter:"",
@@ -115,22 +123,22 @@
     };
   },
   methods: {
-      handleClose(done) {
-        this.$confirm('确认关闭？')
-          .then(_ => {
-            done();
+      loadEditData(id){
+        var _this=this;
+        this.$http.post("admin/user/getById",qs.stringify({id:id})).then(function(res){
+            if(res.data.success){
+              res.data.obj.password="";
+              //_this.form_data=res.data.obj;//因为有多余的属性(如日期类型的数据,可能报400错误,springMVC服务端接受参数会出问题)
+              copyto(_this.form_data,res.data.obj);
+            }
           })
-          .catch(_ => {});
-      },
-      resetForm(formName) {
-        this.$refs[formName].resetFields();
       },
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           var _this=this;
           if (valid) {
-            this.$http.post("admin/user/add",
-            qs.stringify(_this.form_data)).then(
+            console.log(qs.stringify(_this.form_data));
+            this.$http.post("admin/user/edit",qs.stringify(_this.form_data)).then(
               function(res){
                 if(res.data.success){
                         _this.dialogVisible = false;
@@ -138,10 +146,10 @@
                  }else{
                     alert(res.data.msg);       
                  }
-           
               }
             ).catch(
               function(err){
+                console.log(err);
             })
           } else {
             return false;

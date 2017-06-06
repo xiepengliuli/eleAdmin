@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <div id="user_detail">
     <el-dialog
-      title="编辑"
+      title="详情"
       :visible.sync="dialogVisible"
       size="small"
       >
-       <el-form :label-position="labelPosition" label-width="120px"  :inline="isinline" :model="form_data" ref="form_data" class="demo-form-inline demo-ruleForm" :rules="rules" >
+       <el-form :label-position="labelPosition" label-width="120px"  :inline="isinline" :model="form_data" ref="form_data" class="demo-form-inline demo-ruleForm" >
         <el-form-item label="登录名称:" prop="loginName">
           <el-input v-model="form_data.loginName" placeholder="请输入登录名称"></el-input>
         </el-form-item>
@@ -44,14 +44,15 @@
           </el-radio-group>
          </el-form-item>
          <br>
+
          <el-form-item label="备注:" prop="userDesc">
           <el-input type="textarea" :rows="5" style="width: 550px;" v-model="form_data.userDesc" placeholder="请输入备注">
           </el-input>
          </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="submitForm('form_data')">确 定</el-button>
+        <el-button @click="dialogVisible = false">关闭</el-button>
+
       </span>
     </el-dialog>
   </div>
@@ -82,15 +83,6 @@
       return {
         labelPosition:"right",
         isinline:true,
-        rules:{
-            loginName: [
-              { required: true, message: '请输入登录名称', trigger: 'blur' },
-              { min: 6, max: 20, message: '长度在 6 到 20 个字符', trigger: 'blur' }
-            ],
-            password: [
-          
-            ]
-        },
         userStateList:[{
           value:"0",
           text:"正常"
@@ -131,33 +123,12 @@
               res.data.obj.password="";
               //_this.form_data=res.data.obj;//因为有多余的属性(如日期类型的数据,可能报400错误,springMVC服务端接受参数会出问题)
               copyto(_this.form_data,res.data.obj);
+              $("#user_detail .el-form input").attr("disabled","disabled");
+              $("#user_detail .el-form select").attr("disabled","disabled");
+              $("#user_detail .el-form textarea").attr("disabled","disabled");
             }
           })
-      },
-      submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
-          var _this=this;
-          if (valid) {
-            console.log(qs.stringify(_this.form_data));
-            this.$http.post("admin/user/edit",qs.stringify(_this.form_data)).then(
-              function(res){
-                if(res.data.success){
-                        _this.dialogVisible = false;
-                        _this.$emit('flush');
-                 }else{
-                    alert(res.data.msg);       
-                 }
-              }
-            ).catch(
-              function(err){
-                console.log(err);
-            })
-          } else {
-            return false;
-          }
-        });
       }
-
     }
   };
 </script>

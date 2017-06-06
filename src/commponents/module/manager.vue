@@ -2,13 +2,14 @@
  <div>
  	<div style="margin-bottom: 10px;">
  		<addPage style="" v-on:flush="getList"></addPage>
+    <editPage style="float:left;" :dialogShow="editDialogVisible" v-on:flush="getList" v-on:close="editDialogVisible=false" :id="id"></editPage>
+    <detailPage style="float:left;" :dialogShow="detailDialogVisible" v-on:flush="getList" v-on:close="detailDialogVisible=false" :id="id"></detailPage>
  	</div>
 
    <el-tree
       highlight-current
 	  :data="data2"
 	  :props="defaultProps"
-	  show-checkbox
 	  node-key="id"
 	  default-expand-all
 	  :expand-on-click-node="true"
@@ -19,18 +20,24 @@
  </template>
 
 <script>
-  let id = 1000;
-  import AddPage from "./module/user_add.vue"
+  import AddPage from "./add.vue"
+  import EditPage from "./edit.vue"
+  import DetailPage from "./detail.vue"
   export default {
    components: {
     // <my-component> 将只在父模板可用
-    'addPage': AddPage
+    'addPage': AddPage,
+    'editPage':EditPage,
+    'detailPage':DetailPage
   	},
   	mounted:function(){
   		this.getList();
   	},
     data() {
       return {
+        id:'',
+        editDialogVisible:false,
+        detailDialogVisible:false,
         data2: [],
         defaultProps: {
           children: 'children',
@@ -40,7 +47,7 @@
     },
 
     methods: {
-	 getList(){
+      getList(){
            var _this=this;
            this.$http.post("admin/module/treeGrid").then(
             function(res){
@@ -51,12 +58,13 @@
             function(err){
             })
       },
-      append(store, data) {
-        store.append({ id: id++, label: 'testtest', children: [] }, data);
+      edit(store, data) {
+        this.id=data.id;
+        this.editDialogVisible=true;
       },
-
-      remove(store, data) {
-        store.remove(data);
+      detail(store, data) {
+        this.id=data.id;
+        this.detailDialogVisible=true;
       },
 
       //树控件的模板
@@ -69,10 +77,12 @@
             </span>
             <span style="float: right; margin-right: 20px">
 
-   		<el-button type="text" size="small" on-click={ () => this.append(store, data) }>查看</el-button>
-        <el-button type="text" size="small" on-click={ () => this.remove(store, data) }>编辑</el-button>            
+                <el-button type="text" size="small" on-click={ () => this.edit(store, data) }>编辑</el-button>   
+   		          <el-button type="text" size="small" on-click={ () => this.detail(store, data) }>查看</el-button>
+               
             </span>
-          </span>);
+          </span>
+          );
       }
     }
   };
