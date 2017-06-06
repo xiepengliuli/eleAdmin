@@ -99,7 +99,7 @@
             text:'女'
           }],
         form_data:{
-          loginName:"", 
+          loginName:"aaaa", 
           password:"",
           userName:"",
           nameLetter:"",

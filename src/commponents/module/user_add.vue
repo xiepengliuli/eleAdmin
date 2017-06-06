@@ -7,44 +7,41 @@
       size="small"
       >
        <el-form :label-position="labelPosition" label-width="120px"  :inline="isinline" :model="form_data" ref="form_data" class="demo-form-inline demo-ruleForm" :rules="rules" >
-        <el-form-item label="登录名称:" prop="loginName">
-          <el-input v-model="form_data.loginName" placeholder="请输入登录名称"></el-input>
+        <el-form-item label="资源名称:" prop="moduleName">
+          <el-input v-model="form_data.moduleName" placeholder="请输入登录名称"></el-input>
         </el-form-item>
-        <el-form-item label="密码:" prop="password">
-          <el-input type="password" v-model="form_data.password" placeholder="请输入密码">
+         <el-form-item label="资源路径:" prop="moduleUrl">
+          <el-input v-model="form_data.moduleUrl" placeholder="请输入姓名">
           </el-input>
          </el-form-item>
-         <el-form-item label="用户姓名:" prop="userName">
-          <el-input v-model="form_data.userName" placeholder="请输入姓名">
-          </el-input>
+         <el-form-item label="排序:" prop="moduleSort">
+            <el-input v-model="form_data.moduleUrl" placeholder="请输入姓名">
+              </el-input>         
+          </el-form-item>
+         <el-form-item label="上级资源:" prop="parentModuleName">
+            <el-popover
+              ref="popover2"
+              placement="bottom"
+              width=""
+              trigger="click"
+             >
+               <el-tree style="min-height:200px;max-height:300px;overflow:auto;"
+                :data="data2"
+                default-expand-all
+                node-key="id"
+                ref="tree"
+                highlight-current
+                :props="defaultProps" @current-change="selectParent">
+              </el-tree>   
+            </el-popover> 
+
+             <el-input readonly  v-model="form_data.parentModuleName" placeholder="请选择内容" style="width:192px;">
+               <template slot="append">
+                      <el-button v-popover:popover2>选择</el-button>
+               </template>
+             </el-input>
          </el-form-item>
-         <el-form-item label="性别:" prop="sex">
-          <el-radio-group v-model="form_data.sex">
-            <el-radio :label="item.value" v-for="item in sexlist">{{item.text}}</el-radio>
-          </el-radio-group>
-         </el-form-item>
-         <el-form-item label="手机:" prop="mobilePhone">
-          <el-input v-model="form_data.mobilePhone" placeholder="请输入手机">
-          </el-input>
-         </el-form-item>
-         <el-form-item label="座机:" prop="telePhone">
-          <el-input v-model="form_data.telePhone" placeholder="请输入座机">
-          </el-input>
-         </el-form-item>
-         <el-form-item label="邮箱:" prop="email">
-          <el-input v-model="form_data.email" placeholder="请输入邮箱">
-          </el-input>
-         </el-form-item>
-         <el-form-item label="用户IP:" prop="ip">
-          <el-input v-model="form_data.ip" placeholder="请输入用户IP">
-          </el-input>
-         </el-form-item>
-         <el-form-item label="用户状态:" prop="userState">
-          <el-radio-group v-model="form_data.userState">
-            <el-radio :label="item.value" v-for="item in userStateList">{{item.text}}</el-radio>
-          </el-radio-group>
-         </el-form-item>
-         <br>
+          
          <el-form-item label="备注:" prop="userDesc">
           <el-input type="textarea" :rows="5" style="width: 550px;" v-model="form_data.userDesc" placeholder="请输入备注">
           </el-input>
@@ -71,56 +68,58 @@
     data() {
       return {
         rules:{
-            loginName: [
+            moduleName: [
               { required: true, message: '请输入登录名称', trigger: 'blur' },
               { min: 6, max: 20, message: '长度在 6 到 20 个字符', trigger: 'blur' }
-            ],
-            password: [
-              { required: true, message: '请输入密码', trigger: 'blur' },
-              { min: 8, max: 20, message: '长度在 8 到 20 个字符', trigger: 'blur' }
             ]
         },
         labelPosition:"right",
         isinline:true,
         dialogVisible:false,
-        userStateList:[{
-          value:"0",
-          text:"正常"
-        },{
-          value:"1",
-          text:"冻结"
-        }
-        ],
-        sexlist:[{
-            value:'男',
-            text:'男'
-          },{
-            value:'女',
-            text:'女'
-          }],
         form_data:{
-          loginName:"", 
-          password:"",
-          userName:"",
-          nameLetter:"",
-          sex:"",
-          email:"",
-          telePhone:"",
-          mobilePhone:"",
-          ip:"",
-          userState:"",
+          moduleName:"", 
+          moduleTypeId:"0",
+          moduleUrl:"",
           userDesc:"",
-          userState:""
+          parentModuleId:"0",
+          parentModuleName:""
+        },
+        data2: [{
+          id: 1,
+          label: '一级 1',
+          children: [{
+            id: 4,
+            label: '二级 1-1',
+            children: [{
+              id: 9,
+              label: '三级 1-1-1'
+            }, {
+              id: 10,
+              label: '三级 1-1-2'
+            }]
+          }]
+        }, {
+          id: 2,
+          label: '一级 2',
+          children: [{
+            id: 5,
+            label: '二级 2-1'
+          }, {
+            id: 6,
+            label: '二级 2-2'
+          }]
+        }],
+        defaultProps: {
+          children: 'children',
+          label: 'label'
         }
     };
   },
   methods: {
-      handleClose(done) {
-        this.$confirm('确认关闭？')
-          .then(_ => {
-            done();
-          })
-          .catch(_ => {});
+      selectParent(_cur,_node){
+        this.form_data.parentModuleId=_cur.id;
+        this.form_data.parentModuleName=_cur.label;
+
       },
       resetForm(formName) {
         this.$refs[formName].resetFields();

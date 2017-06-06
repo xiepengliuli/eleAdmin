@@ -1,7 +1,7 @@
  <template>
  <div>
  	<div style="margin-bottom: 10px;">
- 		      <addPage style="" v-on:flush="getList"></addPage>
+ 		<addPage style="" v-on:flush="getList"></addPage>
  	</div>
 
    <el-tree
@@ -17,11 +17,7 @@
  </div>
 	 
  </template>
-<style>
-.is-current{
-	background:blue;
-}
-</style>
+
 <script>
   let id = 1000;
   import AddPage from "./module/user_add.vue"
@@ -63,6 +59,7 @@
         store.remove(data);
       },
 
+      //树控件的模板
       renderContent(h, { node, data, store }) {
         return (
           <span>
@@ -74,10 +71,15 @@
 
    		<el-button type="text" size="small" on-click={ () => this.append(store, data) }>查看</el-button>
         <el-button type="text" size="small" on-click={ () => this.remove(store, data) }>编辑</el-button>            
-            
             </span>
           </span>);
       }
     }
   };
 </script>
+
+<style>
+.el-tree--highlight-current .el-tree-node.is-current>.el-tree-node__content {
+    background-color: #bbc5d4;
+}
+</style>
