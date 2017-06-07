@@ -5,11 +5,11 @@
       :visible.sync="dialogVisible"
       size="small"
       >
-       <el-form :label-position="labelPosition" label-width="120px"  :inline="isinline" :model="form_data" ref="form_data" class="demo-form-inline demo-ruleForm" :rules="rules" >
-        <el-form-item style="width:500px;" label="资源名称:" prop="moduleName">
+       <el-form :label-position="labelPosition" label-width="130px"  :inline="isinline" :model="form_data" ref="form_data" class="demo-form-inline demo-ruleForm" :rules="rules" >
+        <el-form-item  label="资源名称:" prop="moduleName">
           <el-input  v-model="form_data.moduleName" placeholder="请输入资源路径"></el-input>
         </el-form-item>
-         <el-form-item style="width:500px;"  label="资源路径:" prop="moduleUrl">
+         <el-form-item  label="资源路径:" prop="moduleUrl">
           <el-input v-model="form_data.moduleUrl" placeholder="请输入姓名">
           </el-input>
          </el-form-item>
@@ -39,8 +39,7 @@
              </el-input>
          </el-form-item>
          <el-form-item label="备注:" prop="moduleDesc">
-          <el-input type="textarea" :rows="5" style="width: 550px;" v-model="form_data.moduleDesc" placeholder="请输入备注">
-          </el-input>
+             <ueditor :value=form_data.moduleDesc  v-bind:config=ueditor_config v-on:input="input" v-on:ready="ready"></ueditor>
          </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -51,7 +50,13 @@
   </div>
 </template>
 <script>
+import Ueditor from "../../assets/ueditor/ueditor.vue"
+
   export default {
+    components: {
+      // <my-component> 将只在父模板可用
+      'ueditor': Ueditor
+    },
     props: ['dialogShow','id'],
     watch:{
       id:function(_id){
@@ -78,6 +83,11 @@
     },
     data() {
       return {
+        ueditor_config: {
+          initialFrameWidth: 650,
+          initialFrameHeight: 320,
+          autoHeight: false
+        },
         labelPosition:"right",
         isinline:false,
         rules:{
@@ -156,8 +166,20 @@
             return false;
           }
         });
+      },
+      input(data){
+        this.form_data.moduleDesc=data.content;
+           //data:编辑付文本的时候的返回的数据对象,要绑定到form_data对象上,返回的数据如下:{ wordCount: wordCount, content: content, plainTxt: plainTxt }
+      },
+      ready(ueditor){
+              //ueditor:富文本对象实例
       }
 
     }
   };
 </script>
+<style>
+  .el-dialog--small {
+    width: 60%;
+   }
+</style>

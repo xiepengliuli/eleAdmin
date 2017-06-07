@@ -5,11 +5,11 @@
       :visible.sync="dialogVisible"
       size="small"
       >
-       <el-form  id="module_detail" :label-position="labelPosition" label-width="120px"  :inline="isinline" :model="form_data" ref="form_data" class="demo-form-inline demo-ruleForm" :rules="rules" >
-        <el-form-item style="width:500px;" label="资源名称:" prop="moduleName">
+       <el-form id="module_detail" :label-position="labelPosition" label-width="120px"  :inline="isinline" :model="form_data" ref="form_data" class="demo-form-inline demo-ruleForm" :rules="rules" >
+        <el-form-item  label="资源名称:" prop="moduleName">
           <el-input  v-model="form_data.moduleName" placeholder="请输入资源名称"></el-input>
         </el-form-item>
-         <el-form-item style="width:500px;"  label="资源路径:" prop="moduleUrl">
+         <el-form-item   label="资源路径:" prop="moduleUrl">
           <el-input v-model="form_data.moduleUrl" placeholder="请输入姓名">
           </el-input>
          </el-form-item>
@@ -139,3 +139,8 @@
     }
   };
 </script>
+<style>
+  .el-dialog--small {
+    width: 60%;
+   }
+</style>

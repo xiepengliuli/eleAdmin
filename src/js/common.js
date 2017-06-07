@@ -50,3 +50,11 @@ function getTreeTop(_array,_pid){
 		return _this[""+_pid+""] == null;
 	});
 }
+
+//生成随机数
+function getRandomNum(Min,Max)
+{   
+var Range = Max - Min;   
+var Rand = Math.random();   
+return(Min + Math.round(Rand * Range));   
+}   

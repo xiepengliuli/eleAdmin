@@ -4,17 +4,17 @@
     <el-dialog
       title="添加"
       :visible.sync="dialogVisible"
-      size="small"
+      size="small" 
       >
-       <el-form :label-position="labelPosition" label-width="120px"  :inline="isinline" :model="form_data" ref="form_data" class="demo-form-inline demo-ruleForm" :rules="rules" >
-        <el-form-item style="width:500px;" label="资源名称:" prop="moduleName">
+       <el-form :label-position="labelPosition" label-width="130px"  :inline="isinline" :model="form_data" ref="form_data" class="demo-form-inline demo-ruleForm" :rules="rules" >
+        <el-form-item  label="资源名称:" prop="moduleName">
           <el-input  v-model="form_data.moduleName" placeholder="请输入资源名称"></el-input>
         </el-form-item>
-         <el-form-item style="width:500px;"  label="资源路径:" prop="moduleUrl">
+         <el-form-item  label="资源路径:" prop="moduleUrl">
           <el-input v-model="form_data.moduleUrl" placeholder="请输入资源路径">
           </el-input>
          </el-form-item>
-         <el-form-item   label="排序号:" prop="moduleSort">
+         <el-form-item  label="排序号:" prop="moduleSort">
               <el-input-number v-model="form_data.moduleSort" :min="1"></el-input-number>
           </el-form-item>
          <el-form-item  label="上级资源:" prop="parentModuleName">
@@ -39,9 +39,8 @@
                </template>
              </el-input>
          </el-form-item>
-         <el-form-item label="备注:" prop="moduleDesc">
-          <el-input type="textarea" :rows="5" style="width: 550px;" v-model="form_data.moduleDesc" placeholder="请输入备注">
-          </el-input>
+          <el-form-item label="备注:" prop="moduleDesc">
+             <ueditor value="" v-bind:config=ueditor_config v-on:input="input" v-on:ready="ready"></ueditor>
          </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -53,8 +52,13 @@
   </div>
 </template>
 <script>
+
+import Ueditor from "../../assets/ueditor/ueditor.vue"
+
   export default {
-    mounted:function(){
+    components: {
+      // <my-component> 将只在父模板可用
+      'ueditor': Ueditor
     },
     watch:{
       dialogVisible:function(val){
@@ -66,6 +70,11 @@
     },
     data() {
       return {
+        ueditor_config: {
+          initialFrameWidth: 650,
+          initialFrameHeight: 320,
+          autoHeight: false
+        },
         rules:{
             moduleName: [
               { required: true, message: '请输入资源名称', trigger: 'blur'},
@@ -73,7 +82,7 @@
             ]
         },
         labelPosition:"right",
-        isinline:false,
+        isinline:true,
         dialogVisible:false,
         form_data:{
           moduleName:"", 
@@ -86,15 +95,24 @@
         },
         pre_data:{
           data2: [],
-        defaultProps: {
-          children: 'children',
-          label: 'moduleName'
-        }
+          defaultProps: {
+            children: 'children',
+            label: 'moduleName'
+          }
         }
        
     };
   },
   methods: {
+    input(data){
+      this.form_data.moduleDesc=data.content;
+         //data:编辑付文本的时候的返回的数据对象,要绑定到form_data对象上,返回的数据如下:{ wordCount: wordCount, content: content, plainTxt: plainTxt }
+    },
+    ready(ueditor){
+            //ueditor:富文本对象实例
+           console.log(ueditor);
+
+    },
      getList(){
            var _this=this;
            this.$http.post("admin/module/treeGrid").then(
@@ -140,3 +158,8 @@
     }
   };
 </script>
+<style>
+  .el-dialog--small {
+    width: 60%;
+   }
+</style>

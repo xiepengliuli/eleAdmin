@@ -53,7 +53,7 @@ export default {
   },
   computed:mapGetters([
       'isLogin'
-    ]),
+     ]),
   mounted(){
     if (this.isLogin) {
       this.$router.push("main");
