@@ -2,6 +2,8 @@
      <div ref="editor"></div>
 </template>
 <script>
+    //服务端用tomcat7或tomcat6,参考地址：http://fex.baidu.com/ueditor/#server-jsp
+    //服务端要解决跨域的问题,参考地址：http://fex.baidu.com/ueditor/#dev-crossdomain
     import  "./ueditor.config.js"
     import  "./ueditor.all.min.js"
     import "./lang/zh-cn/zh-cn.js"
