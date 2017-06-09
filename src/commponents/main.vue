@@ -51,8 +51,17 @@ var bus = new Vue()
           title: '测试菜单',
           name: '1',
             childs:[{
+            title: 'Demo基本增删改查',
+            name: 'Demo'
+            },{
             title: '菜单1tab1',
             name: 'Testa'
+            },{
+            title: 'Demo多附件',
+            name: 'DemoAttachment'
+            },{
+            title: 'Demo标签',
+            name: 'DemoTag'
             }]
         },{
           title: '系统管理',

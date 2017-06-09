@@ -2,8 +2,8 @@
  <div>
  	<div style="margin-bottom: 10px;">
  		<addPage style="" v-on:flush="getList"></addPage>
-    <editPage style="float:left;" :dialogShow="editDialogVisible" v-on:flush="getList" v-on:close="editDialogVisible=false" :id="id"></editPage>
-    <detailPage style="float:left;" :dialogShow="detailDialogVisible" v-on:flush="getList" v-on:close="detailDialogVisible=false" :id="id"></detailPage>
+    <editPage style="float:left;" :dialogShow="editDialogVisible" v-on:flush="getList" v-on:close="editDialogVisible=false" :id="editid"></editPage>
+    <detailPage style="float:left;" :dialogShow="detailDialogVisible" v-on:flush="getList" v-on:close="detailDialogVisible=false" :id="detailid"></detailPage>
  	</div>
 
    <el-tree
@@ -59,11 +59,11 @@
             })
       },
       edit(store, data) {
-        this.id=data.id;
+        this.editid=data.id;
         this.editDialogVisible=true;
       },
       detail(store, data) {
-        this.id=data.id;
+        this.detailid=data.id;
         this.detailDialogVisible=true;
       },
 

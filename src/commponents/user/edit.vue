@@ -128,7 +128,7 @@
         this.$http.post("admin/user/getById",qs.stringify({id:id})).then(function(res){
             if(res.data.success){
               res.data.obj.password="";
-              //_this.form_data=res.data.obj;//因为有多余的属性(如日期类型的数据,可能报400错误,springMVC服务端接受参数会出问题)
+              _this.form_data=res.data.obj;//因为有多余的属性(如日期类型的数据,可能报400错误,springMVC服务端接受参数会出问题)
               copyto(_this.form_data,res.data.obj);
             }
           })

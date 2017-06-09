@@ -2,41 +2,22 @@
 <el-row>
   <el-col :span="24">
   <div>
-        <el-collapse>
-        <el-collapse-item title="搜索" name="1">   
-          <el-row :gutter="20">
-          <el-col :span="4">
-            <el-input v-model="serach_form.loginName" placeholder="登陆名"></el-input>
-          </el-col>
-          <el-col :span="4">
-            <el-input v-model="serach_form.loginName" placeholder="登陆名"></el-input>
-          </el-col>
-          <el-col :span="5">
-            <el-input v-model="serach_form.loginName" placeholder="登陆名"></el-input>
-          </el-col>
-            <el-col :span="5">
-            <el-input v-model="serach_form.loginName" placeholder="登陆名"></el-input>
-          </el-col>
-        </el-row><el-row :gutter="20">
-          <el-col :span="4">
-            <el-input v-model="serach_form.userName" placeholder="用户名"></el-input>
-          </el-col>
-          <el-col :span="4">
-            <el-input v-model="serach_form.userName" placeholder="用户名"></el-input>
-          </el-col>
-          <el-col :span="6"  :offset="10">
-            <el-button type="primary" icon="search" @click="getUserList">搜索</el-button>
-            <el-button type="primary" icon="delete" @click="clear">清空</el-button>
-          </el-col>
-        </el-row>
-         </el-collapse-item>
-      </el-collapse>  
-
+    <el-card class="box-card">
+      <el-row :gutter="20">
+        <el-col :span="4">
+          <el-input v-model="serach_form.name" placeholder="名称"></el-input>
+        </el-col>
+        <el-col :span="6"  :offset="10">
+          <el-button type="primary" icon="search" @click="getList">搜索</el-button>
+          <el-button type="primary" icon="delete" @click="clear">清空</el-button>
+        </el-col>
+      </el-row>
+    </el-card>
       <!--表头操作按钮-->
    <div style="float: left;margin: 15px 0px;">
-      <addPage style="float:left;" v-on:flush="getUserList"></addPage>
-      <editPage style="float:left;" :dialogShow="editDialogVisible" v-on:flush="getUserList" v-on:close="editDialogVisible=false" :id="editid"></editPage>
-      <detailPage style="float:left;" :dialogShow="detailDialogVisible" v-on:flush="getUserList" v-on:close="detailDialogVisible=false" :id="detailid"></detailPage>
+      <addPage style="float:left;" v-on:flush="getList"></addPage>
+      <editPage style="float:left;" :dialogShow="editDialogVisible" v-on:flush="getList" v-on:close="editDialogVisible=false" :id="editid"></editPage>
+      <detailPage style="float:left;" :dialogShow="detailDialogVisible" v-on:flush="getList" v-on:close="detailDialogVisible=false" :id="detailid"></detailPage>
    </div>
     <el-table
     ref="multipleTable"
@@ -49,21 +30,16 @@
       type="selection"
       width="55">
     </el-table-column>
+    
     <el-table-column
-    fixed="left"
-      label="日期"
-      width="200">
-      <template scope="scope">{{ scope.row.createDate }}</template>
-    </el-table-column>
-        <el-table-column
-      prop="userName"
-      label="用户姓名"
+      prop="name"
+      label="名称"
       width="120" show-overflow-tooltip>
     </el-table-column>
 
     <el-table-column
-      prop="loginName"
-      label="登录名"
+      prop="name"
+      label="名称_标签"
       >
     </el-table-column>
     <el-table-column
@@ -99,8 +75,7 @@
   import DetailPage from "./detail.vue"
   
   var search_data={
-    loginName:"",
-    userName:"",
+    name:"",
     rows:10,
     page:1
   };
@@ -113,24 +88,24 @@
       'detailPage':DetailPage
     },
     mounted:function(){
-      this.getUserList();
+      this.getList();
     },
     methods:{  
       handleSizeChange(val) {
         //每頁多少条改变以后触发
         this.serach_form.rows=val;
-        this.getUserList();
+        this.getList();
       },
       handleCurrentChange(val) {
         //请求点击的页的数据
         this.serach_form.page=val;
-        this.getUserList();
+        this.getList();
       },
       handleSelectionChange(val) {
         this.multipleSelection = val;
-      },getUserList(){
+      },getList(){
            var _this=this;
-           this.$http.post("admin/user/dataGrid",
+           this.$http.post("admin/demoEntry/dataGrid",
           qs.stringify(_this.serach_form)).then(
             function(res){
               _this.feny.rows=res.data.rows;
@@ -144,7 +119,7 @@
         this.detailDialogVisible=true;
       },clear(){
         this.serach_form=$.extend(true,{}, search_data);
-        this.getUserList();
+        this.getList();
       },edit(scope){
         this.editid=scope.row.id;
         this.editDialogVisible=true;
